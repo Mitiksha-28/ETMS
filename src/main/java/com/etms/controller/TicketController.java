@@ -14,9 +14,7 @@ import java.util.List;
 public class TicketController {
     private final TicketDAO ticketDAO;
 
-    /**
-     * Constructs a new TicketController with the default TicketDAO implementation.
-     */
+
     public TicketController() {
         this.ticketDAO = new TicketDAOImpl();
     }
@@ -24,19 +22,13 @@ public class TicketController {
     /**
      * Constructs a new TicketController with the specified TicketDAO.
      * This constructor is mainly used for testing purposes.
-     * 
-     * @param ticketDAO the TicketDAO to use
      */
     public TicketController(TicketDAO ticketDAO) {
         this.ticketDAO = ticketDAO;
     }
 
-    /**
-     * Creates a new ticket.
-     * 
-     * @param ticket the ticket to create
-     * @throws ETMSException if an error occurs during creation
-     */
+    
+     // Creates a new ticket. 
     public void createTicket(Ticket ticket) throws ETMSException {
         try {
             // Check if the seat is available
@@ -51,13 +43,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Retrieves a ticket by its ID.
-     * 
-     * @param ticketId the ticket's ID
-     * @return the ticket, or null if not found
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    
+     // Retrieves a ticket by its ID.     
     public Ticket getTicketById(int ticketId) throws ETMSException {
         try {
             return ticketDAO.findById(ticketId);
@@ -66,12 +53,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Updates a ticket's information.
-     * 
-     * @param ticket the ticket to update
-     * @throws ETMSException if an error occurs during update
-     */
+    
+     // Updates a ticket's information.     
     public void updateTicket(Ticket ticket) throws ETMSException {
         try {
             ticketDAO.update(ticket);
@@ -80,12 +63,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Deletes a ticket.
-     * 
-     * @param ticketId the ID of the ticket to delete
-     * @throws ETMSException if an error occurs during deletion
-     */
+    
+     // Deletes a ticket.
     public void deleteTicket(int ticketId) throws ETMSException {
         try {
             ticketDAO.delete(ticketId);
@@ -94,12 +73,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Retrieves all tickets.
-     * 
-     * @return a list of all tickets
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    
+     // Retrieves all tickets.
     public List<Ticket> getAllTickets() throws ETMSException {
         try {
             return ticketDAO.findAll();
@@ -108,13 +83,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Retrieves all tickets for a specific user.
-     * 
-     * @param userId the user's ID
-     * @return a list of tickets for the specified user
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    
+     // Retrieves all tickets for a specific user. 
     public List<Ticket> getTicketsByUserId(int userId) throws ETMSException {
         try {
             return ticketDAO.findByUserId(userId);
@@ -123,13 +93,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Retrieves all tickets for a specific event.
-     * 
-     * @param eventId the event's ID
-     * @return a list of tickets for the specified event
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    
+     // Retrieves all tickets for a specific event. 
     public List<Ticket> getTicketsByEventId(int eventId) throws ETMSException {
         try {
             return ticketDAO.findByEventId(eventId);
@@ -138,13 +103,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Retrieves all tickets of a specific type.
-     * 
-     * @param ticketType the type of tickets to retrieve
-     * @return a list of tickets of the specified type
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    
+     // Retrieves all tickets of a specific type. 
     public List<Ticket> getTicketsByType(Ticket.TicketType ticketType) throws ETMSException {
         try {
             return ticketDAO.findByTicketType(ticketType);
@@ -153,14 +113,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Checks if a seat is available for an event.
-     * 
-     * @param eventId    the event's ID
-     * @param seatNumber the seat number to check
-     * @return true if the seat is available, false otherwise
-     * @throws ETMSException if an error occurs during check
-     */
+
+     // Checks if a seat is available for an event.
     public boolean isSeatAvailable(int eventId, String seatNumber) throws ETMSException {
         try {
             return ticketDAO.isSeatAvailable(eventId, seatNumber);
@@ -169,13 +123,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Gets the number of booked tickets for an event.
-     * 
-     * @param eventId the event's ID
-     * @return the number of booked tickets
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    
+     // Gets the number of booked tickets for an event.
     public int getBookedTicketsCount(int eventId) throws ETMSException {
         try {
             return ticketDAO.getBookedTicketsCount(eventId);
@@ -184,13 +133,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Gets the list of available seats for an event.
-     * 
-     * @param eventId the event's ID
-     * @return a list of available seat numbers
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    
+     // Gets the list of available seats for an event.     
     public List<String> getAvailableSeats(int eventId) throws ETMSException {
         try {
             return ticketDAO.getAvailableSeats(eventId);
@@ -199,13 +143,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Cancels a ticket.
-     * 
-     * @param ticketId the ID of the ticket to cancel
-     * @return true if the ticket was cancelled, false otherwise
-     * @throws ETMSException if an error occurs during cancellation
-     */
+    
+     // Cancels a ticket. 
     public boolean cancelTicket(int ticketId) throws ETMSException {
         try {
             return ticketDAO.cancelTicket(ticketId);
@@ -214,13 +153,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Retrieves all upcoming tickets for a user.
-     * 
-     * @param userId the user's ID
-     * @return a list of upcoming tickets for the specified user
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    
+     // Retrieves all upcoming tickets for a user.     
     public List<Ticket> getUpcomingTickets(int userId) throws ETMSException {
         try {
             return ticketDAO.findUpcomingTickets(userId);
@@ -229,13 +163,8 @@ public class TicketController {
         }
     }
 
-    /**
-     * Retrieves all past tickets for a user.
-     * 
-     * @param userId the user's ID
-     * @return a list of past tickets for the specified user
-     * @throws ETMSException if an error occurs during retrieval
-     */
+
+     // Retrieves all past tickets for a user.   
     public List<Ticket> getPastTickets(int userId) throws ETMSException {
         try {
             return ticketDAO.findPastTickets(userId);
