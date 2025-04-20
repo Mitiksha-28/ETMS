@@ -8,37 +8,18 @@ import com.etms.model.Event;
 
 import java.time.LocalDate;
 import java.util.List;
-
-/**
- * Controller class for event-related operations.
- * This class handles the business logic for event management.
- */
 public class EventController {
     private final EventDAO eventDAO;
 
-    /**
-     * Constructs a new EventController with the default EventDAO implementation.
-     */
     public EventController() {
         this.eventDAO = new EventDAOImpl();
     }
 
-    /**
-     * Constructs a new EventController with the specified EventDAO.
-     * This constructor is mainly used for testing purposes.
-     * 
-     * @param eventDAO the EventDAO to use
-     */
     public EventController(EventDAO eventDAO) {
         this.eventDAO = eventDAO;
     }
 
-    /**
-     * Creates a new event.
-     * 
-     * @param event the event to create
-     * @throws ETMSException if an error occurs during creation
-     */
+    // Creates a new event.
     public void createEvent(Event event) throws ETMSException {
         try {
             validateEvent(event);
@@ -50,13 +31,7 @@ public class EventController {
         }
     }
 
-    /**
-     * Retrieves an event by its ID.
-     * 
-     * @param eventId the event's ID
-     * @return the event, or null if not found
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Retrieves an event by its ID.  
     public Event getEventById(int eventId) throws ETMSException {
         try {
             return eventDAO.findById(eventId);
@@ -65,12 +40,7 @@ public class EventController {
         }
     }
 
-    /**
-     * Updates an event's information.
-     * 
-     * @param event the event to update
-     * @throws ETMSException if an error occurs during update
-     */
+    // Updates an event's information.
     public void updateEvent(Event event) throws ETMSException {
         try {
             validateEvent(event);
@@ -82,12 +52,7 @@ public class EventController {
         }
     }
 
-    /**
-     * Deletes an event.
-     * 
-     * @param eventId the ID of the event to delete
-     * @throws ETMSException if an error occurs during deletion
-     */
+    // Deletes an event.
     public void deleteEvent(int eventId) throws ETMSException {
         try {
             eventDAO.delete(eventId);
@@ -96,12 +61,7 @@ public class EventController {
         }
     }
 
-    /**
-     * Retrieves all events.
-     * 
-     * @return a list of all events
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Retrieves all events.
     public List<Event> getAllEvents() throws ETMSException {
         try {
             return eventDAO.findAll();
@@ -110,13 +70,7 @@ public class EventController {
         }
     }
 
-    /**
-     * Retrieves all events of a specific type.
-     * 
-     * @param eventType the type of events to retrieve
-     * @return a list of events of the specified type
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Retrieves all events of a specific type.
     public List<Event> getEventsByType(Event.EventType eventType) throws ETMSException {
         try {
             return eventDAO.findByEventType(eventType);
@@ -125,15 +79,8 @@ public class EventController {
         }
     }
 
-    /**
-     * Retrieves all events within a date range.
-     * 
-     * @param startDate the start date
-     * @param endDate   the end date
-     * @return a list of events within the date range
-     * @throws ETMSException if an error occurs during retrieval
-     */
-    public List<Event> getEventsByDateRange(LocalDate startDate, LocalDate endDate) throws ETMSException {
+    // Retrieves all events within a date range.
+        public List<Event> getEventsByDateRange(LocalDate startDate, LocalDate endDate) throws ETMSException {
         try {
             return eventDAO.findByDateRange(startDate, endDate);
         } catch (Exception e) {
@@ -141,13 +88,7 @@ public class EventController {
         }
     }
 
-    /**
-     * Retrieves all events at a specific venue.
-     * 
-     * @param venueId the venue's ID
-     * @return a list of events at the specified venue
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Retrieves all events at a specific venue.
     public List<Event> getEventsByVenue(int venueId) throws ETMSException {
         try {
             return eventDAO.findByVenue(venueId);
@@ -156,13 +97,7 @@ public class EventController {
         }
     }
 
-    /**
-     * Searches for events by keyword.
-     * 
-     * @param keyword the keyword to search for
-     * @return a list of events matching the keyword
-     * @throws ETMSException if an error occurs during search
-     */
+    // Searches for events by keyword.
     public List<Event> searchEvents(String keyword) throws ETMSException {
         try {
             return eventDAO.searchEvents(keyword);
@@ -170,13 +105,7 @@ public class EventController {
             throw new ETMSException("Failed to search events: " + e.getMessage(), e);
         }
     }
-
-    /**
-     * Retrieves all upcoming events.
-     * 
-     * @return a list of upcoming events
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Retrieves all upcoming events.
     public List<Event> getUpcomingEvents() throws ETMSException {
         try {
             return eventDAO.findUpcomingEvents();
@@ -185,12 +114,7 @@ public class EventController {
         }
     }
 
-    /**
-     * Retrieves all past events.
-     * 
-     * @return a list of past events
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Retrieves all past events.
     public List<Event> getPastEvents() throws ETMSException {
         try {
             return eventDAO.findPastEvents();
@@ -199,13 +123,7 @@ public class EventController {
         }
     }
 
-    /**
-     * Gets the number of available seats for an event.
-     * 
-     * @param eventId the event's ID
-     * @return the number of available seats
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Gets the number of available seats for an event.
     public int getAvailableSeats(int eventId) throws ETMSException {
         try {
             return eventDAO.getAvailableSeats(eventId);
@@ -214,14 +132,7 @@ public class EventController {
         }
     }
 
-    /**
-     * Updates the number of available seats for an event.
-     * 
-     * @param eventId the event's ID
-     * @param seats   the new number of available seats
-     * @return true if the update was successful, false otherwise
-     * @throws ETMSException if an error occurs during update
-     */
+    // Updates the number of available seats for an event.
     public boolean updateAvailableSeats(int eventId, int seats) throws ETMSException {
         try {
             return eventDAO.updateAvailableSeats(eventId, seats);

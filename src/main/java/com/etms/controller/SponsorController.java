@@ -8,9 +8,7 @@ import com.etms.model.Sponsor;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Controller class for handling sponsor-related business logic.
- */
+// Handles sponsor-related operations.
 public class SponsorController {
     private final SponsorDAO sponsorDAO;
 
@@ -26,13 +24,7 @@ public class SponsorController {
         this.sponsorDAO = sponsorDAO;
     }
 
-    /**
-     * Creates a new sponsor.
-     *
-     * @param sponsor The sponsor to create
-     * @return The created sponsor with generated ID
-     * @throws ETMSException if there is an error creating the sponsor
-     */
+    // Create a new sponsor
     public Sponsor createSponsor(Sponsor sponsor) throws ETMSException {
         try {
             return sponsorDAO.save(sponsor);
@@ -41,13 +33,7 @@ public class SponsorController {
         }
     }
 
-    /**
-     * Retrieves a sponsor by ID.
-     *
-     * @param sponsorId The ID of the sponsor to retrieve
-     * @return The sponsor if found, null otherwise
-     * @throws ETMSException if there is an error retrieving the sponsor
-     */
+    // Get sponsor by ID
     public Sponsor getSponsorById(int sponsorId) throws ETMSException {
         try {
             return sponsorDAO.findById(sponsorId);
@@ -56,13 +42,7 @@ public class SponsorController {
         }
     }
 
-    /**
-     * Updates a sponsor's information.
-     *
-     * @param sponsor The sponsor to update
-     * @return true if the update was successful, false otherwise
-     * @throws ETMSException if there is an error updating the sponsor
-     */
+    // Update sponsor details
     public boolean updateSponsor(Sponsor sponsor) throws ETMSException {
         try {
             return sponsorDAO.update(sponsor);
@@ -71,13 +51,7 @@ public class SponsorController {
         }
     }
 
-    /**
-     * Deletes a sponsor.
-     *
-     * @param sponsorId The ID of the sponsor to delete
-     * @return true if the deletion was successful, false otherwise
-     * @throws ETMSException if there is an error deleting the sponsor
-     */
+    // Delete sponsor by ID
     public boolean deleteSponsor(int sponsorId) throws ETMSException {
         try {
             if (sponsorDAO.isSponsorAssociated(sponsorId)) {
@@ -89,12 +63,7 @@ public class SponsorController {
         }
     }
 
-    /**
-     * Retrieves all sponsors.
-     *
-     * @return List of all sponsors
-     * @throws ETMSException if there is an error retrieving sponsors
-     */
+    // Get all sponsors
     public List<Sponsor> getAllSponsors() throws ETMSException {
         try {
             return sponsorDAO.findAll();
@@ -103,13 +72,7 @@ public class SponsorController {
         }
     }
 
-    /**
-     * Retrieves sponsors associated with a specific event.
-     *
-     * @param eventId The ID of the event
-     * @return List of sponsors associated with the event
-     * @throws ETMSException if there is an error retrieving sponsors
-     */
+    // Get sponsors for an event
     public List<Sponsor> getSponsorsByEventId(int eventId) throws ETMSException {
         try {
             return sponsorDAO.findByEventId(eventId);
@@ -118,13 +81,7 @@ public class SponsorController {
         }
     }
 
-    /**
-     * Retrieves sponsors by their status.
-     *
-     * @param status The status to filter by
-     * @return List of sponsors with the specified status
-     * @throws ETMSException if there is an error retrieving sponsors
-     */
+    // Get sponsors by status
     public List<Sponsor> getSponsorsByStatus(Sponsor.SponsorStatus status) throws ETMSException {
         try {
             return sponsorDAO.findByStatus(status);
@@ -133,13 +90,7 @@ public class SponsorController {
         }
     }
 
-    /**
-     * Retrieves sponsors by their type.
-     *
-     * @param type The type to filter by
-     * @return List of sponsors of the specified type
-     * @throws ETMSException if there is an error retrieving sponsors
-     */
+    // Get sponsors by type
     public List<Sponsor> getSponsorsByType(Sponsor.SponsorType type) throws ETMSException {
         try {
             return sponsorDAO.findByType(type);
@@ -148,12 +99,7 @@ public class SponsorController {
         }
     }
 
-    /**
-     * Calculates the total sponsorship amount.
-     *
-     * @return The total sponsorship amount
-     * @throws ETMSException if there is an error calculating the total
-     */
+    // Get total sponsorship amount
     public double getTotalSponsorshipAmount() throws ETMSException {
         try {
             return sponsorDAO.getTotalSponsorshipAmount();
@@ -162,12 +108,7 @@ public class SponsorController {
         }
     }
 
-    /**
-     * Gets the total count of sponsors.
-     *
-     * @return The total number of sponsors
-     * @throws ETMSException if there is an error getting the count
-     */
+    // Get total number of sponsors
     public int getSponsorCount() throws ETMSException {
         try {
             return sponsorDAO.getSponsorCount();
@@ -176,13 +117,7 @@ public class SponsorController {
         }
     }
 
-    /**
-     * Checks if a sponsor is associated with any events.
-     *
-     * @param sponsorId The ID of the sponsor to check
-     * @return true if the sponsor is associated with events, false otherwise
-     * @throws ETMSException if there is an error checking the association
-     */
+    // Check sponsor-event association
     public boolean isSponsorAssociated(int sponsorId) throws ETMSException {
         try {
             return sponsorDAO.isSponsorAssociated(sponsorId);

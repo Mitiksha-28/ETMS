@@ -8,37 +8,18 @@ import com.etms.model.Payment;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Controller class for payment-related operations.
- * This class handles the business logic for payment management.
- */
 public class PaymentController {
     private final PaymentDAO paymentDAO;
 
-    /**
-     * Constructs a new PaymentController with the default PaymentDAO
-     * implementation.
-     */
     public PaymentController() {
         this.paymentDAO = new PaymentDAOImpl();
     }
 
-    /**
-     * Constructs a new PaymentController with the specified PaymentDAO.
-     * This constructor is mainly used for testing purposes.
-     * 
-     * @param paymentDAO the PaymentDAO to use
-     */
     public PaymentController(PaymentDAO paymentDAO) {
         this.paymentDAO = paymentDAO;
     }
 
-    /**
-     * Creates a new payment.
-     * 
-     * @param payment the payment to create
-     * @throws ETMSException if an error occurs during creation
-     */
+    // Creates a payment
     public void createPayment(Payment payment) throws ETMSException {
         try {
             paymentDAO.save(payment);
@@ -47,13 +28,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Retrieves a payment by its ID.
-     * 
-     * @param paymentId the payment's ID
-     * @return the payment, or null if not found
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Gets a payment by ID
     public Payment getPaymentById(int paymentId) throws ETMSException {
         try {
             return paymentDAO.findById(paymentId);
@@ -62,12 +37,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Updates a payment's information.
-     * 
-     * @param payment the payment to update
-     * @throws ETMSException if an error occurs during update
-     */
+    // Updates a payment
     public void updatePayment(Payment payment) throws ETMSException {
         try {
             paymentDAO.update(payment);
@@ -76,12 +46,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Deletes a payment.
-     * 
-     * @param paymentId the ID of the payment to delete
-     * @throws ETMSException if an error occurs during deletion
-     */
+    // Deletes a payment
     public void deletePayment(int paymentId) throws ETMSException {
         try {
             paymentDAO.delete(paymentId);
@@ -90,12 +55,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Retrieves all payments.
-     * 
-     * @return a list of all payments
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Gets all payments
     public List<Payment> getAllPayments() throws ETMSException {
         try {
             return paymentDAO.findAll();
@@ -104,13 +64,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Retrieves all payments for a specific user.
-     * 
-     * @param userId the user's ID
-     * @return a list of payments for the specified user
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Gets payments by user ID
     public List<Payment> getPaymentsByUserId(int userId) throws ETMSException {
         try {
             return paymentDAO.findByUserId(userId);
@@ -119,13 +73,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Retrieves all payments with a specific status.
-     * 
-     * @param status the status of payments to retrieve
-     * @return a list of payments with the specified status
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Gets payments by status
     public List<Payment> getPaymentsByStatus(Payment.PaymentStatus status) throws ETMSException {
         try {
             return paymentDAO.findByStatus(status);
@@ -134,14 +82,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Retrieves all payments within a date range.
-     * 
-     * @param startDate the start date
-     * @param endDate   the end date
-     * @return a list of payments within the date range
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Gets payments in a date range
     public List<Payment> getPaymentsByDateRange(LocalDateTime startDate, LocalDateTime endDate) throws ETMSException {
         try {
             return paymentDAO.findByDateRange(startDate, endDate);
@@ -150,14 +91,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Updates the status of a payment.
-     * 
-     * @param paymentId the payment's ID
-     * @param status    the new status
-     * @return true if the update was successful, false otherwise
-     * @throws ETMSException if an error occurs during update
-     */
+    // Updates payment status
     public boolean updatePaymentStatus(int paymentId, Payment.PaymentStatus status) throws ETMSException {
         try {
             return paymentDAO.updatePaymentStatus(paymentId, status);
@@ -166,14 +100,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Gets the total revenue for a date range.
-     * 
-     * @param startDate the start date
-     * @param endDate   the end date
-     * @return the total revenue
-     * @throws ETMSException if an error occurs during calculation
-     */
+    // Gets total revenue in a date range
     public double getTotalRevenue(LocalDateTime startDate, LocalDateTime endDate) throws ETMSException {
         try {
             return paymentDAO.getTotalRevenue(startDate, endDate);
@@ -182,12 +109,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Retrieves all pending payments.
-     * 
-     * @return a list of pending payments
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Gets pending payments
     public List<Payment> getPendingPayments() throws ETMSException {
         try {
             return paymentDAO.findPendingPayments();
@@ -196,12 +118,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Retrieves all failed payments.
-     * 
-     * @return a list of failed payments
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Gets failed payments
     public List<Payment> getFailedPayments() throws ETMSException {
         try {
             return paymentDAO.findFailedPayments();
@@ -210,12 +127,7 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Retrieves all refunded payments.
-     * 
-     * @return a list of refunded payments
-     * @throws ETMSException if an error occurs during retrieval
-     */
+    // Gets refunded payments
     public List<Payment> getRefundedPayments() throws ETMSException {
         try {
             return paymentDAO.findRefundedPayments();
