@@ -51,10 +51,10 @@ public class UserDAOImpl implements UserDAO {
         try (Connection conn = DatabaseUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, user.getName());
-            stmt.setString(2, user.getEmail());
+            stmt.setString(2, user.getEmail().trim().toLowerCase());
             stmt.setString(3, user.getPhone());
             stmt.setString(4, hashPassword(user.getPassword()));
-            stmt.setString(5, user.getUserType().name().toUpperCase());
+            stmt.setString(5, user.getUserType().name());
             stmt.executeUpdate();
 
             ResultSet rs = stmt.getGeneratedKeys();
@@ -105,17 +105,19 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User authenticate(String email, String password) throws Exception {
-        String hashedPassword = hashPassword(password); // Hash the input password
-
-        String sql = "SELECT * FROM User WHERE Email = ? AND Password = ?";
+        String sql = "SELECT * FROM User WHERE Email = ?";
         try (Connection conn = DatabaseUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setString(1, email.trim().toLowerCase());
-            stmt.setString(2, hashedPassword); // Use hashed password here
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return mapResultSetToUser(rs);
+                String storedHash = rs.getString("Password");
+                if (hashPassword(password).equals(storedHash)) {
+                    User user = mapResultSetToUser(rs);
+                    // Set a temporary password to allow profile updates
+                    user.setPassword(storedHash);
+                    return user;
+                }
             }
         }
         return null;
@@ -144,12 +146,14 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean changePassword(int userId, String oldPassword, String newPassword) throws Exception {
+        String hashedOldPassword = hashPassword(oldPassword);
+        String hashedNewPassword = hashPassword(newPassword);
         String sql = "UPDATE User SET Password = ? WHERE UserID = ? AND Password = ?";
         try (Connection conn = DatabaseUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, newPassword);
+            stmt.setString(1, hashedNewPassword);
             stmt.setInt(2, userId);
-            stmt.setString(3, oldPassword);
+            stmt.setString(3, hashedOldPassword);
             return stmt.executeUpdate() > 0;
         }
     }

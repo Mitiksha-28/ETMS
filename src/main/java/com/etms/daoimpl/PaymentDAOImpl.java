@@ -49,7 +49,7 @@ public class PaymentDAOImpl implements PaymentDAO {
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, payment.getUserId());
             stmt.setBigDecimal(2, payment.getAmount());
-            stmt.setString(3, payment.getStatus().name());
+            stmt.setString(3, payment.getStatus().name().toUpperCase());
             stmt.setTimestamp(4, Timestamp.valueOf(payment.getTransactionDate()));
             stmt.executeUpdate();
 
@@ -177,7 +177,13 @@ public class PaymentDAOImpl implements PaymentDAO {
         payment.setPaymentId(rs.getInt("PaymentID"));
         payment.setUserId(rs.getInt("UserID"));
         payment.setAmount(rs.getBigDecimal("Amount"));
-        payment.setStatus(Payment.PaymentStatus.valueOf(rs.getString("Status")));
+        String statusStr = rs.getString("Status");
+        try {
+            payment.setStatus(Payment.PaymentStatus.valueOf(statusStr.toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid payment status in database: {}", statusStr);
+            payment.setStatus(Payment.PaymentStatus.PENDING); // Default to PENDING if status is invalid
+        }
         payment.setTransactionDate(rs.getTimestamp("TransactionDate").toLocalDateTime());
         return payment;
     }
