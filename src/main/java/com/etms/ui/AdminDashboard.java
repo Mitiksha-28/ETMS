@@ -90,11 +90,11 @@ public class AdminDashboard extends JFrame {
         welcomeLabel.setForeground(Color.WHITE);
         panel.add(welcomeLabel, BorderLayout.WEST);
 
-        // Create logout button
+        // Create logout button with new color scheme
         JButton logoutButton = new JButton("Logout");
         logoutButton.setFont(new Font("Arial", Font.BOLD, 14));
-        logoutButton.setForeground(new Color(70, 130, 180));
-        logoutButton.setBackground(Color.WHITE);
+        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setBackground(new Color(220, 53, 69)); // Bootstrap danger red
         logoutButton.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         logoutButton.setFocusPainted(false);
         logoutButton.setCursor(new Cursor(Cursor.HAND_CURSOR));

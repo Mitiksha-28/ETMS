@@ -110,11 +110,11 @@ public class CustomerDashboard extends JFrame {
         welcomeLabel.setForeground(Color.WHITE);
         panel.add(welcomeLabel, BorderLayout.WEST);
 
-        // Create logout button
+        // Create logout button with new color scheme
         JButton logoutButton = new JButton("Logout");
         logoutButton.setFont(new Font("Arial", Font.BOLD, 14));
-        logoutButton.setForeground(new Color(70, 130, 180));
-        logoutButton.setBackground(Color.WHITE);
+        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setBackground(new Color(220, 53, 69)); // Bootstrap danger red
         logoutButton.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         logoutButton.setFocusPainted(false);
         logoutButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -218,7 +218,7 @@ public class CustomerDashboard extends JFrame {
         panel.setBackground(Color.WHITE);
 
         // Create table model with column names
-        String[] columnNames = { "ID", "Name", "Date", "Time", "Venue", "Description", "Type", "Price" };
+        String[] columnNames = { "ID", "Name", "Date", "Time", "Description", "Type", "Price" };
         eventTableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -342,6 +342,7 @@ public class CustomerDashboard extends JFrame {
     private JPanel createPaymentsPanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
 
         // Create table model
         String[] columns = { "ID", "Amount", "Status", "Transaction Date" };
@@ -352,17 +353,22 @@ public class CustomerDashboard extends JFrame {
             }
         };
 
-        // Create table
+        // Create table with custom styling
         paymentTable = new JTable(paymentTableModel);
+        paymentTable.setFont(new Font("Arial", Font.PLAIN, 14));
+        paymentTable.setRowHeight(25);
+        paymentTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
         JScrollPane scrollPane = new JScrollPane(paymentTable);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
-        // Create button panel
+        // Create button panel with consistent styling
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        buttonPanel.setBackground(Color.WHITE);
 
-        JButton viewButton = new JButton("View Details");
+        JButton viewButton = createStyledButton("View Details", "👁️");
         viewButton.addActionListener(e -> viewPaymentDetails());
 
-        JButton refreshButton = new JButton("Refresh");
+        JButton refreshButton = createStyledButton("Refresh", "🔄");
         refreshButton.addActionListener(e -> loadData());
 
         buttonPanel.add(viewButton);
