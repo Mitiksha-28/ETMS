@@ -19,6 +19,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -64,37 +65,42 @@ public class CustomerDashboard extends JFrame {
      * Initializes the UI components.
      */
     private void initializeUI() {
-        setTitle("Customer Dashboard - Event Ticket Management System");
+        setTitle("🎫 Customer Dashboard - Event Ticket Management System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 700);
         setLocationRelativeTo(null);
+        getContentPane().setBackground(new Color(240, 240, 245));
 
         // Create main panel
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        mainPanel.setBackground(new Color(240, 240, 245));
 
         // Create header panel
         JPanel headerPanel = createHeaderPanel();
         mainPanel.add(headerPanel, BorderLayout.NORTH);
 
-        // Create tabbed pane
+        // Create tabbed pane with custom styling
         tabbedPane = new JTabbedPane();
+        tabbedPane.setBackground(Color.WHITE);
+        tabbedPane.setForeground(new Color(51, 51, 51));
+        tabbedPane.setFont(new Font("Arial", Font.BOLD, 14));
 
         // Create profile panel
         profilePanel = createProfilePanel();
-        tabbedPane.addTab("Profile", profilePanel);
+        tabbedPane.addTab("👤 Profile", profilePanel);
 
         // Create events panel
         eventsPanel = createEventsPanel();
-        tabbedPane.addTab("Events", eventsPanel);
+        tabbedPane.addTab("🎭 Events", eventsPanel);
 
         // Create tickets panel
         ticketsPanel = createTicketsPanel();
-        tabbedPane.addTab("My Tickets", ticketsPanel);
+        tabbedPane.addTab("🎟️ My Tickets", ticketsPanel);
 
         // Create payments panel
         paymentsPanel = createPaymentsPanel();
-        tabbedPane.addTab("My Payments", paymentsPanel);
+        tabbedPane.addTab("💳 My Payments", paymentsPanel);
 
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
 
@@ -109,19 +115,40 @@ public class CustomerDashboard extends JFrame {
      */
     private JPanel createHeaderPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        panel.setBackground(new Color(70, 130, 180)); // Steel Blue
 
         // Create welcome label
-        JLabel welcomeLabel = new JLabel("Welcome, " + currentUser.getName());
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        JLabel welcomeLabel = new JLabel("👋 Welcome, " + currentUser.getName());
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        welcomeLabel.setForeground(Color.WHITE);
         panel.add(welcomeLabel, BorderLayout.WEST);
 
         // Create logout button
-        JButton logoutButton = new JButton("Logout");
+        JButton logoutButton = new JButton("🚪 Logout");
+        logoutButton.setFont(new Font("Arial", Font.BOLD, 14));
+        logoutButton.setForeground(new Color(70, 130, 180));
+        logoutButton.setBackground(Color.WHITE);
+        logoutButton.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        logoutButton.setFocusPainted(false);
+        logoutButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         logoutButton.addActionListener(e -> handleLogout());
         panel.add(logoutButton, BorderLayout.EAST);
 
         return panel;
+    }
+
+    private JButton createStyledButton(String text, String emoji) {
+        JButton button = new JButton(emoji + " " + text);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setForeground(new Color(70, 130, 180));
+        button.setBackground(Color.WHITE);
+        button.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(70, 130, 180), 1),
+                BorderFactory.createEmptyBorder(8, 15, 8, 15)));
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
     }
 
     /**
@@ -131,48 +158,41 @@ public class CustomerDashboard extends JFrame {
      */
     private JPanel createProfilePanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.setBackground(Color.WHITE);
 
         // Create form panel
         JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(Color.WHITE);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Add user information
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        formPanel.add(new JLabel("Name:"), gbc);
-
-        gbc.gridx = 1;
+        // Style form fields
         JTextField nameField = new JTextField(currentUser.getName(), 20);
         nameField.setEditable(false);
-        formPanel.add(nameField, gbc);
+        nameField.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        formPanel.add(new JLabel("Email:"), gbc);
-
-        gbc.gridx = 1;
         JTextField emailField = new JTextField(currentUser.getEmail(), 20);
         emailField.setEditable(false);
-        formPanel.add(emailField, gbc);
+        emailField.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        formPanel.add(new JLabel("Phone:"), gbc);
-
-        gbc.gridx = 1;
         JTextField phoneField = new JTextField(currentUser.getPhone(), 20);
-        formPanel.add(phoneField, gbc);
+        phoneField.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        // Add styled labels and fields
+        addFormField(formPanel, "👤 Name:", nameField, gbc, 0);
+        addFormField(formPanel, "📧 Email:", emailField, gbc, 1);
+        addFormField(formPanel, "📱 Phone:", phoneField, gbc, 2);
 
         // Create button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        buttonPanel.setBackground(Color.WHITE);
 
-        JButton updateButton = new JButton("Update Profile");
+        JButton updateButton = createStyledButton("Update Profile", "💾");
+        JButton changePasswordButton = createStyledButton("Change Password", "🔑");
+
         updateButton.addActionListener(e -> handleUpdateProfile(phoneField.getText()));
-
-        JButton changePasswordButton = new JButton("Change Password");
         changePasswordButton.addActionListener(e -> showChangePasswordDialog());
 
         buttonPanel.add(updateButton);
@@ -189,6 +209,18 @@ public class CustomerDashboard extends JFrame {
         return panel;
     }
 
+    private void addFormField(JPanel panel, String label, JTextField field, GridBagConstraints gbc, int row) {
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        JLabel jLabel = new JLabel(label);
+        jLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        jLabel.setForeground(new Color(70, 130, 180));
+        panel.add(jLabel, gbc);
+
+        gbc.gridx = 1;
+        panel.add(field, gbc);
+    }
+
     /**
      * Creates the events panel with a table of available events.
      * 
@@ -196,56 +228,65 @@ public class CustomerDashboard extends JFrame {
      */
     private JPanel createEventsPanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.setBackground(Color.WHITE);
 
-        // Create table model with non-editable cells
-        String[] columns = { "ID", "Name", "Date", "Time", "Venue", "Description", "Type", "Price" };
-        eventTableModel = new DefaultTableModel(columns, 0) {
+        // Create table model with column names
+        String[] columnNames = { "ID", "Name", "Date", "Time", "Venue", "Description", "Type", "Price" };
+        eventTableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
 
-        // Create table with proper settings
+        // Create and configure table
         eventTable = new JTable(eventTableModel);
         eventTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         eventTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         eventTable.getTableHeader().setReorderingAllowed(false);
+        eventTable.setRowHeight(30);
+        eventTable.setFont(new Font("Arial", Font.PLAIN, 14));
+        eventTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        eventTable.getTableHeader().setBackground(new Color(70, 130, 180));
+        eventTable.getTableHeader().setForeground(Color.WHITE);
+        eventTable.setSelectionBackground(new Color(173, 216, 230));
+        eventTable.setSelectionForeground(new Color(51, 51, 51));
 
-        // Set preferred column widths
+        // Set column widths
         eventTable.getColumnModel().getColumn(0).setPreferredWidth(50); // ID
-        eventTable.getColumnModel().getColumn(1).setPreferredWidth(200); // Name
+        eventTable.getColumnModel().getColumn(1).setPreferredWidth(150); // Name
         eventTable.getColumnModel().getColumn(2).setPreferredWidth(100); // Date
         eventTable.getColumnModel().getColumn(3).setPreferredWidth(100); // Time
-        eventTable.getColumnModel().getColumn(4).setPreferredWidth(100); // Venue
-        eventTable.getColumnModel().getColumn(5).setPreferredWidth(250); // Description
+        eventTable.getColumnModel().getColumn(4).setPreferredWidth(150); // Venue
+        eventTable.getColumnModel().getColumn(5).setPreferredWidth(200); // Description
         eventTable.getColumnModel().getColumn(6).setPreferredWidth(100); // Type
         eventTable.getColumnModel().getColumn(7).setPreferredWidth(100); // Price
 
         // Create scroll pane
         JScrollPane scrollPane = new JScrollPane(eventTable);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180)));
+        panel.add(scrollPane, BorderLayout.CENTER);
 
         // Create button panel
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
-        JButton viewButton = new JButton("View Details");
-        viewButton.addActionListener(e -> viewEventDetails());
+        JButton viewDetailsButton = createStyledButton("View Details", "🔍");
+        JButton bookTicketButton = createStyledButton("Book Ticket", "🎟️");
+        JButton refreshButton = createStyledButton("Refresh", "🔄");
 
-        JButton bookButton = new JButton("Book Ticket");
-        bookButton.addActionListener(e -> bookTicket());
-
-        buttonPanel.add(viewButton);
-        buttonPanel.add(bookButton);
-
-        // Add refresh button
-        JButton refreshButton = new JButton("Refresh");
+        viewDetailsButton.addActionListener(e -> handleViewEventDetails());
+        bookTicketButton.addActionListener(e -> handleBookTicket());
         refreshButton.addActionListener(e -> loadData());
+
+        buttonPanel.add(viewDetailsButton);
+        buttonPanel.add(bookTicketButton);
         buttonPanel.add(refreshButton);
 
-        panel.add(buttonPanel, BorderLayout.NORTH);
-        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
 
         return panel;
     }
@@ -256,37 +297,62 @@ public class CustomerDashboard extends JFrame {
      * @return the tickets panel
      */
     private JPanel createTicketsPanel() {
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.setBackground(Color.WHITE);
 
-        // Create table model
-        String[] columns = { "ID", "Event", "Seat", "Price", "Type", "Booking Date" };
-        ticketTableModel = new DefaultTableModel(columns, 0) {
+        // Create table model with columns
+        ticketTableModel = new DefaultTableModel(
+                new String[] { "ID", "Event", "Seat", "Type", "Price", "Status" },
+                0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
 
-        // Create table
+        // Create and configure table
         ticketTable = new JTable(ticketTableModel);
+        ticketTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        ticketTable.setRowHeight(30);
+        ticketTable.setFont(new Font("Arial", Font.PLAIN, 14));
+        ticketTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        ticketTable.getTableHeader().setBackground(new Color(70, 130, 180));
+        ticketTable.getTableHeader().setForeground(Color.WHITE);
+        ticketTable.setSelectionBackground(new Color(173, 216, 230));
+        ticketTable.getTableHeader().setReorderingAllowed(false);
+
+        // Set column widths
+        ticketTable.getColumnModel().getColumn(0).setPreferredWidth(50); // ID
+        ticketTable.getColumnModel().getColumn(1).setPreferredWidth(200); // Event
+        ticketTable.getColumnModel().getColumn(2).setPreferredWidth(100); // Seat
+        ticketTable.getColumnModel().getColumn(3).setPreferredWidth(100); // Type
+        ticketTable.getColumnModel().getColumn(4).setPreferredWidth(100); // Price
+        ticketTable.getColumnModel().getColumn(5).setPreferredWidth(100); // Status
+
+        // Add table to scroll pane
         JScrollPane scrollPane = new JScrollPane(ticketTable);
-
-        // Create button panel
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-        JButton viewButton = new JButton("View Details");
-        viewButton.addActionListener(e -> viewTicketDetails());
-
-        JButton cancelButton = new JButton("Cancel Ticket");
-        cancelButton.addActionListener(e -> cancelTicket());
-
-        buttonPanel.add(viewButton);
-        buttonPanel.add(cancelButton);
-
-        panel.add(buttonPanel, BorderLayout.NORTH);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         panel.add(scrollPane, BorderLayout.CENTER);
 
+        // Create button panel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(Color.WHITE);
+
+        JButton viewDetailsButton = new JButton("🔍 View Details");
+        JButton cancelButton = new JButton("❌ Cancel Ticket");
+        JButton refreshButton = new JButton("🔄 Refresh");
+
+        viewDetailsButton.addActionListener(e -> handleViewTicketDetails());
+        cancelButton.addActionListener(e -> handleCancelTicket());
+        refreshButton.addActionListener(e -> loadData());
+
+        buttonPanel.add(viewDetailsButton);
+        buttonPanel.add(cancelButton);
+        buttonPanel.add(refreshButton);
+
+        panel.add(buttonPanel, BorderLayout.SOUTH);
         return panel;
     }
 
@@ -318,7 +384,11 @@ public class CustomerDashboard extends JFrame {
         JButton viewButton = new JButton("View Details");
         viewButton.addActionListener(e -> viewPaymentDetails());
 
+        JButton refreshButton = new JButton("Refresh");
+        refreshButton.addActionListener(e -> loadData());
+
         buttonPanel.add(viewButton);
+        buttonPanel.add(refreshButton);
 
         panel.add(buttonPanel, BorderLayout.NORTH);
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -334,49 +404,43 @@ public class CustomerDashboard extends JFrame {
             // Show loading indicator
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-            // Load ALL events directly instead of trying upcoming events first
-            List<Event> events = eventController.getAllEvents();
-
-            // Clear existing rows
+            // Load events
+            List<Event> events = eventController.getUpcomingEvents();
+            if (events.isEmpty()) {
+                events = eventController.getAllEvents();
+            }
             eventTableModel.setRowCount(0);
-
-            // Debug print
-            System.out.println("Loading " + events.size() + " events");
-
-            // Add events to table
             for (Event event : events) {
                 Object[] rowData = {
                         event.getEventId(),
                         event.getEventName(),
-                        event.getDate().toString(),
-                        event.getTime().toString(),
-                        event.getVenueId(),
+                        event.getDate(),
+                                event.getTime(),
                         event.getDescription(),
-                        event.getEventType().toString(),
-                        event.getTicketPrice().toString()
+                        event.getEventType(),
+                        event.getTicketPrice()
                 };
                 eventTableModel.addRow(rowData);
             }
 
-            // Make sure table is visible and refreshed
-            eventTable.revalidate();
-            eventTable.repaint();
-
             // Load tickets
             List<Ticket> tickets = ticketController.getTicketsByUserId(currentUser.getUserId());
             ticketTableModel.setRowCount(0);
+            LocalDate today = LocalDate.now();
+
             for (Ticket ticket : tickets) {
                 Event event = eventController.getEventById(ticket.getEventId());
-                String eventName = event != null ? event.getEventName() : "Unknown Event";
+                String status = event != null && event.getDate().isAfter(today) ? "Upcoming" : "Past";
 
-                ticketTableModel.addRow(new Object[] {
+                Object[] rowData = {
                         ticket.getTicketId(),
-                        eventName,
-                        ticket.getSeatNumber(),
+                        event != null ? event.getEventName() : "Unknown Event",
+                                ticket.getSeatNumber(),
+                                ticket.getTicketType(),
                         ticket.getPrice(),
-                        ticket.getTicketType(),
-                        ticket.getBookingDate()
-                });
+                        status
+                };
+                ticketTableModel.addRow(rowData);
             }
 
             // Load payments
@@ -386,20 +450,19 @@ public class CustomerDashboard extends JFrame {
                 paymentTableModel.addRow(new Object[] {
                         payment.getPaymentId(),
                         payment.getAmount(),
-                        payment.getStatus(),
+                        payment.getStatus().toString(),
                         payment.getTransactionDate()
                 });
             }
+
+            // Reset cursor
+            setCursor(Cursor.getDefaultCursor());
         } catch (ETMSException e) {
-            System.err.println("Error loading data: " + e.getMessage());
-            e.printStackTrace();
+            setCursor(Cursor.getDefaultCursor());
             JOptionPane.showMessageDialog(this,
                     "Error loading data: " + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-        } finally {
-            // Reset cursor
-            setCursor(Cursor.getDefaultCursor());
         }
     }
 
@@ -557,7 +620,7 @@ public class CustomerDashboard extends JFrame {
     /**
      * Views the details of the selected event.
      */
-    private void viewEventDetails() {
+    private void handleViewEventDetails() {
         int selectedRow = eventTable.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this,
@@ -597,7 +660,7 @@ public class CustomerDashboard extends JFrame {
     /**
      * Books a ticket for the selected event.
      */
-    private void bookTicket() {
+    private void handleBookTicket() {
         int selectedRow = eventTable.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this,
@@ -637,7 +700,7 @@ public class CustomerDashboard extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        JComboBox<String> ticketTypeComboBox = new JComboBox<>(new String[] { "GENERAL", "VIP" });
+        JComboBox<String> ticketTypeComboBox = new JComboBox<>(new String[] { "General", "VIP" });
         JTextField seatNumberField = new JTextField(10);
         JTextField quantityField = new JTextField("1", 5);
 
@@ -669,9 +732,18 @@ public class CustomerDashboard extends JFrame {
 
         if (result == JOptionPane.OK_OPTION) {
             try {
+                // Validate inputs
+                if (seatNumberField.getText().trim().isEmpty()) {
+                    throw new ValidationException("Please enter a seat number");
+                }
+
                 String ticketType = (String) ticketTypeComboBox.getSelectedItem();
-                String seatNumber = seatNumberField.getText();
+                String seatNumber = seatNumberField.getText().trim();
                 int quantity = Integer.parseInt(quantityField.getText());
+
+                if (quantity <= 0) {
+                    throw new ValidationException("Quantity must be greater than 0");
+                }
 
                 // Create ticket
                 Ticket ticket = new Ticket();
@@ -702,6 +774,16 @@ public class CustomerDashboard extends JFrame {
 
                 // Reload data
                 loadData();
+            } catch (ValidationException e) {
+                JOptionPane.showMessageDialog(this,
+                        e.getMessage(),
+                        "Validation Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this,
+                        "Please enter a valid quantity",
+                        "Validation Error",
+                        JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this,
                         "Error booking ticket: " + e.getMessage(),
@@ -714,7 +796,7 @@ public class CustomerDashboard extends JFrame {
     /**
      * Views the details of the selected ticket.
      */
-    private void viewTicketDetails() {
+    private void handleViewTicketDetails() {
         int selectedRow = ticketTable.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this,
@@ -756,7 +838,7 @@ public class CustomerDashboard extends JFrame {
     /**
      * Cancels the selected ticket.
      */
-    private void cancelTicket() {
+    private void handleCancelTicket() {
         int selectedRow = ticketTable.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this,

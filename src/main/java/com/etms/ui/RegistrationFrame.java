@@ -6,8 +6,7 @@ import com.etms.model.User;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class RegistrationFrame extends JFrame {
     private final UserController userController;
@@ -28,89 +27,58 @@ public class RegistrationFrame extends JFrame {
     private void initializeUI() {
         setTitle("Event Ticket Management System - Registration");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(500, 400);
+        setSize(500, 500);
         setLocationRelativeTo(null);
         setResizable(false);
 
-        // Create main panel with some padding
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout(10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        Color bgColor = new Color(245, 245, 245);
+        Color accentColor = new Color(0, 120, 215);
+        Color fieldColor = Color.WHITE;
+        Font font = new Font("Segoe UI", Font.PLAIN, 14);
 
-        // Create form panel
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.setBackground(bgColor);
+
         JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(bgColor);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(8, 8, 8, 8);
 
-        // Add title label
         JLabel titleLabel = new JLabel("Create New Account");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        titleLabel.setForeground(accentColor);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         formPanel.add(titleLabel, gbc);
 
-        // Add name field
-        gbc.gridy = 1;
         gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        formPanel.add(new JLabel("Full Name:"), gbc);
 
-        gbc.gridx = 1;
-        nameField = new JTextField(20);
-        formPanel.add(nameField, gbc);
-
-        // Add email field
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        formPanel.add(new JLabel("Email:"), gbc);
-
-        gbc.gridx = 1;
-        emailField = new JTextField(20);
-        formPanel.add(emailField, gbc);
-
-        // Add phone field
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        formPanel.add(new JLabel("Phone Number:"), gbc);
-
-        gbc.gridx = 1;
-        phoneField = new JTextField(20);
-        formPanel.add(phoneField, gbc);
-
-        // Add password field
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        formPanel.add(new JLabel("Password:"), gbc);
-
-        gbc.gridx = 1;
-        passwordField = new JPasswordField(20);
-        formPanel.add(passwordField, gbc);
-
-        // Add confirm password field
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        formPanel.add(new JLabel("Confirm Password:"), gbc);
-
-        gbc.gridx = 1;
-        confirmPasswordField = new JPasswordField(20);
-        formPanel.add(confirmPasswordField, gbc);
-
-        // Add user type combo box
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        formPanel.add(new JLabel("User Type:"), gbc);
-
-        gbc.gridx = 1;
+        nameField = createStyledTextField(font, fieldColor);
+        emailField = createStyledTextField(font, fieldColor);
+        phoneField = createStyledTextField(font, fieldColor);
+        passwordField = createStyledPasswordField(font, fieldColor);
+        confirmPasswordField = createStyledPasswordField(font, fieldColor);
         userTypeCombo = new JComboBox<>(User.UserType.values());
-        formPanel.add(userTypeCombo, gbc);
+        userTypeCombo.setFont(font);
+        userTypeCombo.setBackground(fieldColor);
 
-        // Add buttons panel
+        addLabeledField(formPanel, gbc, "Full Name:", nameField, 1);
+        addLabeledField(formPanel, gbc, "Email:", emailField, 2);
+        addLabeledField(formPanel, gbc, "Phone Number:", phoneField, 3);
+        addLabeledField(formPanel, gbc, "Password:", passwordField, 4);
+        addLabeledField(formPanel, gbc, "Confirm Password:", confirmPasswordField, 5);
+        addLabeledField(formPanel, gbc, "User Type:", userTypeCombo, 6);
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        registerButton = new JButton("Register");
-        cancelButton = new JButton("Cancel");
+        buttonPanel.setBackground(bgColor);
+
+        registerButton = createStyledButton("Register", accentColor, Color.BLACK);
+        cancelButton = createStyledButton("Cancel", new Color(200, 0, 0), Color.BLACK);
 
         buttonPanel.add(registerButton);
         buttonPanel.add(cancelButton);
@@ -121,26 +89,55 @@ public class RegistrationFrame extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         formPanel.add(buttonPanel, gbc);
 
-        // Add form panel to main panel
         mainPanel.add(formPanel, BorderLayout.CENTER);
-
-        // Add main panel to frame
         add(mainPanel);
 
-        // Add action listeners
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleRegistration();
-            }
-        });
+        // Action listeners
+        registerButton.addActionListener(e -> handleRegistration());
+        cancelButton.addActionListener(e -> dispose());
+    }
 
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
+    private void addLabeledField(JPanel panel, GridBagConstraints gbc, String label, Component field, int y) {
+        gbc.gridx = 0;
+        gbc.gridy = y;
+        panel.add(new JLabel(label), gbc);
+        gbc.gridx = 1;
+        panel.add(field, gbc);
+    }
+
+    private JTextField createStyledTextField(Font font, Color bg) {
+        JTextField field = new JTextField(20);
+        field.setFont(font);
+        field.setBackground(bg);
+        return field;
+    }
+
+    private JPasswordField createStyledPasswordField(Font font, Color bg) {
+        JPasswordField field = new JPasswordField(20);
+        field.setFont(font);
+        field.setBackground(bg);
+        return field;
+    }
+
+    private JButton createStyledButton(String text, Color bg, Color fg) {
+        JButton button = new JButton(text);
+        button.setFocusPainted(false);
+        button.setBackground(bg);
+        button.setForeground(fg);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        // Hover effect
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(bg.darker());
+            }
+
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(bg);
             }
         });
+        return button;
     }
 
     private void handleRegistration() {
@@ -151,46 +148,34 @@ public class RegistrationFrame extends JFrame {
         String confirmPassword = new String(confirmPasswordField.getPassword());
         User.UserType userType = (User.UserType) userTypeCombo.getSelectedItem();
 
-        // Validate input
         if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "All fields are required",
-                    "Validation Error",
+            JOptionPane.showMessageDialog(this, "All fields are required", "Validation Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            JOptionPane.showMessageDialog(this,
-                    "Passwords do not match",
-                    "Validation Error",
+            JOptionPane.showMessageDialog(this, "Passwords do not match", "Validation Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            // Create new user
             User newUser = new User();
             newUser.setName(name);
             newUser.setEmail(email);
             newUser.setPhone(phone);
-            newUser.setPassword(password); // Note: In a real application, password should be hashed
+            newUser.setPassword(password); // In real applications, hash this
             newUser.setUserType(userType);
 
-            // Save user to database
             userController.registerUser(newUser);
 
             JOptionPane.showMessageDialog(this,
                     "Registration successful! Please login.",
-                    "Registration Success",
-                    JOptionPane.INFORMATION_MESSAGE);
-
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
             dispose();
         } catch (ETMSException ex) {
-            JOptionPane.showMessageDialog(this,
-                    ex.getMessage(),
-                    "Registration Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Registration Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

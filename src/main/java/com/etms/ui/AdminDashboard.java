@@ -39,29 +39,38 @@ public class AdminDashboard extends JFrame {
     }
 
     private void initializeUI() {
-        setTitle("Admin Dashboard - Event Ticket Management System");
+        setTitle("🎫 Admin Dashboard - Event Ticket Management System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
         setLocationRelativeTo(null);
+        getContentPane().setBackground(new Color(240, 240, 245));
 
         // Create main panel
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        mainPanel.setBackground(new Color(240, 240, 245));
 
-        // Create tabbed pane
+        // Create header panel
+        JPanel headerPanel = createHeaderPanel();
+        mainPanel.add(headerPanel, BorderLayout.NORTH);
+
+        // Create tabbed pane with custom styling
         JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setBackground(Color.WHITE);
+        tabbedPane.setForeground(new Color(51, 51, 51));
+        tabbedPane.setFont(new Font("Arial", Font.BOLD, 14));
 
         // Events tab
         JPanel eventsPanel = createEventsPanel();
-        tabbedPane.addTab("Events", eventsPanel);
+        tabbedPane.addTab("🎭 Events", eventsPanel);
 
         // Tickets tab
         JPanel ticketsPanel = createTicketsPanel();
-        tabbedPane.addTab("Tickets", ticketsPanel);
+        tabbedPane.addTab("🎟️ Tickets", ticketsPanel);
 
         // Users tab
         JPanel usersPanel = createUsersPanel();
-        tabbedPane.addTab("Users", usersPanel);
+        tabbedPane.addTab("👥 Users", usersPanel);
 
         // Add tabbed pane to main panel
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
@@ -70,12 +79,63 @@ public class AdminDashboard extends JFrame {
         add(mainPanel);
     }
 
+    private JPanel createHeaderPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        panel.setBackground(new Color(70, 130, 180)); // Steel Blue
+
+        // Create welcome label
+        JLabel welcomeLabel = new JLabel("👋 Welcome, Admin " + currentUser.getName());
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        welcomeLabel.setForeground(Color.WHITE);
+        panel.add(welcomeLabel, BorderLayout.WEST);
+
+        // Create logout button
+        JButton logoutButton = new JButton("🚪 Logout");
+        logoutButton.setFont(new Font("Arial", Font.BOLD, 14));
+        logoutButton.setForeground(new Color(70, 130, 180));
+        logoutButton.setBackground(Color.WHITE);
+        logoutButton.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        logoutButton.setFocusPainted(false);
+        logoutButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        logoutButton.addActionListener(e -> handleLogout());
+        panel.add(logoutButton, BorderLayout.EAST);
+
+        return panel;
+    }
+
+    private void handleLogout() {
+        int choice = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to logout?",
+                "Logout",
+                JOptionPane.YES_NO_OPTION);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            dispose();
+            new LoginFrame().setVisible(true);
+        }
+    }
+
+    private JButton createStyledButton(String text, String emoji) {
+        JButton button = new JButton(emoji + " " + text);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setForeground(new Color(70, 130, 180));
+        button.setBackground(Color.WHITE);
+        button.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(70, 130, 180), 1),
+                BorderFactory.createEmptyBorder(8, 15, 8, 15)));
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
+    }
+
     private JPanel createEventsPanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
 
         // Create table model
-        String[] columns = { "ID", "Name", "Date", "Time", "Venue", "Capacity", "Available Tickets", "Price" };
+        String[] columns = { "ID", "Name", "Date", "Time", "VenueID", "Venue Name", "Event Type", "Ticket Price" };
         eventTableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -83,15 +143,22 @@ public class AdminDashboard extends JFrame {
             }
         };
 
-        // Create table
+        // Create table with custom styling
         eventTable = new JTable(eventTableModel);
+        eventTable.setFont(new Font("Arial", Font.PLAIN, 14));
+        eventTable.setRowHeight(25);
+        eventTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        eventTable.getTableHeader().setBackground(new Color(70, 130, 180));
+        eventTable.getTableHeader().setForeground(Color.WHITE);
         JScrollPane scrollPane = new JScrollPane(eventTable);
 
         // Create button panel
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton addButton = new JButton("Add Event");
-        JButton editButton = new JButton("Edit Event");
-        JButton deleteButton = new JButton("Delete Event");
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        buttonPanel.setBackground(Color.WHITE);
+
+        JButton addButton = createStyledButton("Add Event", "➕");
+        JButton editButton = createStyledButton("Edit Event", "✏️");
+        JButton deleteButton = createStyledButton("Delete Event", "🗑️");
 
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);
@@ -111,9 +178,10 @@ public class AdminDashboard extends JFrame {
     private JPanel createTicketsPanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
 
         // Create table model
-        String[] columns = { "ID", "Event", "Customer", "Quantity", "Total Price", "Purchase Date" };
+        String[] columns = { "ID", "Event", "Customer", "Seat Number", "Price", "Type" };
         ticketTableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -121,21 +189,27 @@ public class AdminDashboard extends JFrame {
             }
         };
 
-        // Create table
+        // Create table with custom styling
         ticketTable = new JTable(ticketTableModel);
+        ticketTable.setFont(new Font("Arial", Font.PLAIN, 14));
+        ticketTable.setRowHeight(25);
+        ticketTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        ticketTable.getTableHeader().setBackground(new Color(70, 130, 180));
+        ticketTable.getTableHeader().setForeground(Color.WHITE);
         JScrollPane scrollPane = new JScrollPane(ticketTable);
 
         // Create button panel
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton viewButton = new JButton("View Details");
-        JButton cancelButton = new JButton("Cancel Ticket");
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        buttonPanel.setBackground(Color.WHITE);
+
+        JButton viewButton = createStyledButton("View Details", "👁️");
+        JButton cancelButton = createStyledButton("Cancel Ticket", "❌");
 
         buttonPanel.add(viewButton);
         buttonPanel.add(cancelButton);
 
-        // Add action listeners
         viewButton.addActionListener(e -> viewTicketDetails());
-        cancelButton.addActionListener(e -> cancelSelectedTicket());
+        cancelButton.addActionListener(e -> cancelTicket());
 
         panel.add(buttonPanel, BorderLayout.NORTH);
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -146,9 +220,10 @@ public class AdminDashboard extends JFrame {
     private JPanel createUsersPanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
 
         // Create table model
-        String[] columns = { "ID", "Name", "Email", "User Type" };
+        String[] columns = { "ID", "Name", "Email", "Phone No.", "User Type" };
         userTableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -156,19 +231,25 @@ public class AdminDashboard extends JFrame {
             }
         };
 
-        // Create table
+        // Create table with custom styling
         userTable = new JTable(userTableModel);
+        userTable.setFont(new Font("Arial", Font.PLAIN, 14));
+        userTable.setRowHeight(25);
+        userTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        userTable.getTableHeader().setBackground(new Color(70, 130, 180));
+        userTable.getTableHeader().setForeground(Color.WHITE);
         JScrollPane scrollPane = new JScrollPane(userTable);
 
         // Create button panel
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton viewButton = new JButton("View User");
-        JButton deleteButton = new JButton("Delete User");
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        buttonPanel.setBackground(Color.WHITE);
+
+        JButton viewButton = createStyledButton("View User", "👤");
+        JButton deleteButton = createStyledButton("Delete User", "🗑️");
 
         buttonPanel.add(viewButton);
         buttonPanel.add(deleteButton);
 
-        // Add action listeners
         viewButton.addActionListener(e -> viewUserDetails());
         deleteButton.addActionListener(e -> deleteSelectedUser());
 
@@ -197,19 +278,7 @@ public class AdminDashboard extends JFrame {
             }
 
             // Load tickets
-            List<Ticket> tickets = ticketController.getAllTickets();
-            ticketTableModel.setRowCount(0);
-            for (Ticket ticket : tickets) {
-                ticketTableModel.addRow(new Object[] {
-                        ticket.getTicketId(),
-                        ticket.getEventId(),
-                        ticket.getUserId(),
-                        ticket.getSeatNumber(),
-                        ticket.getPrice(),
-                        ticket.getTicketType(),
-                        ticket.getBookingDate()
-                });
-            }
+            loadTicketData();
 
             // Load users
             List<User> users = userController.getAllUsers();
@@ -226,6 +295,36 @@ public class AdminDashboard extends JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
                     "Error loading data: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void loadTicketData() {
+        try {
+            List<Ticket> tickets = ticketController.getAllTickets();
+            ticketTableModel.setRowCount(0);
+
+            for (Ticket ticket : tickets) {
+                Event event = eventController.getEventById(ticket.getEventId());
+                User customer = userController.getUserById(ticket.getUserId());
+
+                String eventName = event != null ? event.getEventName() : "Unknown Event";
+                String customerName = customer != null ? customer.getName() : "Unknown Customer";
+
+                Object[] rowData = {
+                        ticket.getTicketId(),
+                        eventName,
+                        customerName,
+                        ticket.getSeatNumber(),
+                        ticket.getPrice(),
+                        ticket.getTicketType()
+                };
+                ticketTableModel.addRow(rowData);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error loading tickets: " + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -552,7 +651,7 @@ public class AdminDashboard extends JFrame {
         dialog.setVisible(true);
     }
 
-    private void cancelSelectedTicket() {
+    private void cancelTicket() {
         int selectedRow = ticketTable.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a ticket to cancel");
