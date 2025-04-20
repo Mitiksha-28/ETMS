@@ -55,7 +55,7 @@ public class CustomerDashboard extends JFrame {
 
 
     private void initializeUI() {
-        setTitle("🎫 Customer Dashboard - Event Ticket Management System");
+        setTitle("Customer Dashboard - Event Ticket Management System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 700);
         setLocationRelativeTo(null);
@@ -78,19 +78,19 @@ public class CustomerDashboard extends JFrame {
 
         // Create profile panel
         profilePanel = createProfilePanel();
-        tabbedPane.addTab("👤 Profile", profilePanel);
+        tabbedPane.addTab("Profile", profilePanel);
 
         // Create events panel
         eventsPanel = createEventsPanel();
-        tabbedPane.addTab("🎭 Events", eventsPanel);
+        tabbedPane.addTab("Events", eventsPanel);
 
         // Create tickets panel
         ticketsPanel = createTicketsPanel();
-        tabbedPane.addTab("🎟️ My Tickets", ticketsPanel);
+        tabbedPane.addTab("My Tickets", ticketsPanel);
 
         // Create payments panel
         paymentsPanel = createPaymentsPanel();
-        tabbedPane.addTab("💳 My Payments", paymentsPanel);
+        tabbedPane.addTab("Payments", paymentsPanel);
 
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
 
@@ -105,13 +105,13 @@ public class CustomerDashboard extends JFrame {
         panel.setBackground(new Color(70, 130, 180)); // Steel Blue
 
         // Create welcome label
-        JLabel welcomeLabel = new JLabel("👋 Welcome, " + currentUser.getName());
+        JLabel welcomeLabel = new JLabel("Welcome, " + currentUser.getName());
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 18));
         welcomeLabel.setForeground(Color.WHITE);
         panel.add(welcomeLabel, BorderLayout.WEST);
 
         // Create logout button
-        JButton logoutButton = new JButton("🚪 Logout");
+        JButton logoutButton = new JButton("Logout");
         logoutButton.setFont(new Font("Arial", Font.BOLD, 14));
         logoutButton.setForeground(new Color(70, 130, 180));
         logoutButton.setBackground(Color.WHITE);
@@ -125,7 +125,7 @@ public class CustomerDashboard extends JFrame {
     }
 
     private JButton createStyledButton(String text, String emoji) {
-        JButton button = new JButton(emoji + " " + text);
+        JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 14));
         button.setForeground(new Color(70, 130, 180));
         button.setBackground(Color.WHITE);
@@ -167,9 +167,9 @@ public class CustomerDashboard extends JFrame {
         phoneField.setFont(new Font("Arial", Font.PLAIN, 14));
 
         // Add styled labels and fields
-        addFormField(formPanel, "👤 Name:", nameField, gbc, 0);
-        addFormField(formPanel, "📧 Email:", emailField, gbc, 1);
-        addFormField(formPanel, "📱 Phone:", phoneField, gbc, 2);
+        addFormField(formPanel, "Name:", nameField, gbc, 0);
+        addFormField(formPanel, "Email:", emailField, gbc, 1);
+        addFormField(formPanel, "Phone:", phoneField, gbc, 2);
 
         // Create button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));

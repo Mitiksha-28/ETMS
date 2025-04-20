@@ -39,7 +39,7 @@ public class AdminDashboard extends JFrame {
     }
 
     private void initializeUI() {
-        setTitle("🎫 Admin Dashboard - Event Ticket Management System");
+        setTitle("Admin Dashboard - Event Ticket Management System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
         setLocationRelativeTo(null);
@@ -62,15 +62,15 @@ public class AdminDashboard extends JFrame {
 
         // Events tab
         JPanel eventsPanel = createEventsPanel();
-        tabbedPane.addTab("🎭 Events", eventsPanel);
+        tabbedPane.addTab("Events", eventsPanel);
 
         // Tickets tab
         JPanel ticketsPanel = createTicketsPanel();
-        tabbedPane.addTab("🎟️ Tickets", ticketsPanel);
+        tabbedPane.addTab("Tickets", ticketsPanel);
 
         // Users tab
         JPanel usersPanel = createUsersPanel();
-        tabbedPane.addTab("👥 Users", usersPanel);
+        tabbedPane.addTab("Users", usersPanel);
 
         // Add tabbed pane to main panel
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
@@ -85,13 +85,13 @@ public class AdminDashboard extends JFrame {
         panel.setBackground(new Color(70, 130, 180)); // Steel Blue
 
         // Create welcome label
-        JLabel welcomeLabel = new JLabel("👋 Welcome, Admin " + currentUser.getName());
+        JLabel welcomeLabel = new JLabel("Welcome, Admin " + currentUser.getName());
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 18));
         welcomeLabel.setForeground(Color.WHITE);
         panel.add(welcomeLabel, BorderLayout.WEST);
 
         // Create logout button
-        JButton logoutButton = new JButton("🚪 Logout");
+        JButton logoutButton = new JButton("Logout");
         logoutButton.setFont(new Font("Arial", Font.BOLD, 14));
         logoutButton.setForeground(new Color(70, 130, 180));
         logoutButton.setBackground(Color.WHITE);
@@ -117,7 +117,7 @@ public class AdminDashboard extends JFrame {
     }
 
     private JButton createStyledButton(String text, String emoji) {
-        JButton button = new JButton(emoji + " " + text);
+        JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 14));
         button.setForeground(new Color(70, 130, 180));
         button.setBackground(Color.WHITE);
