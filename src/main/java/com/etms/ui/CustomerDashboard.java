@@ -21,11 +21,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Dashboard UI for customer users.
- * This class provides a graphical interface for customers to manage their
- * tickets and view events.
- */
+
 public class CustomerDashboard extends JFrame {
     private final User currentUser;
     private final EventController eventController;
@@ -45,11 +41,7 @@ public class CustomerDashboard extends JFrame {
     private JPanel ticketsPanel;
     private JPanel paymentsPanel;
 
-    /**
-     * Constructs a new CustomerDashboard with the specified user.
-     * 
-     * @param user the current user
-     */
+
     public CustomerDashboard(User user) {
         this.currentUser = user;
         this.eventController = new EventController();
@@ -60,9 +52,7 @@ public class CustomerDashboard extends JFrame {
         loadData();
     }
 
-    /**
-     * Initializes the UI components.
-     */
+
     private void initializeUI() {
         setTitle("Customer Dashboard - Event Ticket Management System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,11 +92,7 @@ public class CustomerDashboard extends JFrame {
         add(mainPanel);
     }
 
-    /**
-     * Creates the header panel with user information and logout button.
-     * 
-     * @return the header panel
-     */
+
     private JPanel createHeaderPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -124,11 +110,7 @@ public class CustomerDashboard extends JFrame {
         return panel;
     }
 
-    /**
-     * Creates the profile panel with user information and edit options.
-     * 
-     * @return the profile panel
-     */
+
     private JPanel createProfilePanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -189,11 +171,7 @@ public class CustomerDashboard extends JFrame {
         return panel;
     }
 
-    /**
-     * Creates the events panel with a table of available events.
-     * 
-     * @return the events panel
-     */
+
     private JPanel createEventsPanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -250,11 +228,7 @@ public class CustomerDashboard extends JFrame {
         return panel;
     }
 
-    /**
-     * Creates the tickets panel with a table of the user's tickets.
-     * 
-     * @return the tickets panel
-     */
+
     private JPanel createTicketsPanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -290,11 +264,7 @@ public class CustomerDashboard extends JFrame {
         return panel;
     }
 
-    /**
-     * Creates the payments panel with a table of the user's payments.
-     * 
-     * @return the payments panel
-     */
+
     private JPanel createPaymentsPanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -326,9 +296,7 @@ public class CustomerDashboard extends JFrame {
         return panel;
     }
 
-    /**
-     * Loads data into the tables.
-     */
+    
     private void loadData() {
         try {
             // Show loading indicator
@@ -403,9 +371,7 @@ public class CustomerDashboard extends JFrame {
         }
     }
 
-    /**
-     * Handles the logout action.
-     */
+
     private void handleLogout() {
         int choice = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to logout?",
@@ -418,11 +384,7 @@ public class CustomerDashboard extends JFrame {
         }
     }
 
-    /**
-     * Handles the update profile action.
-     * 
-     * @param phone the new phone number
-     */
+
     private void handleUpdateProfile(String phone) {
         try {
             // Validate phone number
@@ -461,9 +423,7 @@ public class CustomerDashboard extends JFrame {
         }
     }
 
-    /**
-     * Shows the change password dialog.
-     */
+
     private void showChangePasswordDialog() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -554,9 +514,7 @@ public class CustomerDashboard extends JFrame {
         }
     }
 
-    /**
-     * Views the details of the selected event.
-     */
+
     private void viewEventDetails() {
         int selectedRow = eventTable.getSelectedRow();
         if (selectedRow == -1) {
@@ -594,9 +552,7 @@ public class CustomerDashboard extends JFrame {
         }
     }
 
-    /**
-     * Books a ticket for the selected event.
-     */
+
     private void bookTicket() {
         int selectedRow = eventTable.getSelectedRow();
         if (selectedRow == -1) {
@@ -623,11 +579,7 @@ public class CustomerDashboard extends JFrame {
         }
     }
 
-    /**
-     * Shows the booking dialog for the selected event.
-     * 
-     * @param event the event to book
-     */
+
     private void showBookingDialog(Event event) {
         // This is a simplified booking dialog
         // In a real application, this would be more complex
@@ -711,9 +663,7 @@ public class CustomerDashboard extends JFrame {
         }
     }
 
-    /**
-     * Views the details of the selected ticket.
-     */
+
     private void viewTicketDetails() {
         int selectedRow = ticketTable.getSelectedRow();
         if (selectedRow == -1) {
@@ -753,9 +703,7 @@ public class CustomerDashboard extends JFrame {
         }
     }
 
-    /**
-     * Cancels the selected ticket.
-     */
+
     private void cancelTicket() {
         int selectedRow = ticketTable.getSelectedRow();
         if (selectedRow == -1) {
@@ -800,9 +748,7 @@ public class CustomerDashboard extends JFrame {
         }
     }
 
-    /**
-     * Views the details of the selected payment.
-     */
+
     private void viewPaymentDetails() {
         int selectedRow = paymentTable.getSelectedRow();
         if (selectedRow == -1) {
